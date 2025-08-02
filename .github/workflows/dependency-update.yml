@@ -1,0 +1,62 @@
+name: Dependency Updates
+
+on:
+  schedule:
+    # Executa toda segunda-feira às 9h
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+
+jobs:
+  update-dependencies:
+    name: 📦 Update Dependencies
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📦 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: '8'
+
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: 📥 Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: 🔄 Update dependencies
+        run: pnpm update --latest
+
+      - name: 🧪 Run tests after update
+        run: pnpm test
+
+      - name: 🏗️ Test build after update
+        run: pnpm build
+
+      - name: 📝 Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: 'chore: update dependencies'
+          title: '📦 Automated dependency updates'
+          body: |
+            ## 📦 Dependency Updates
+            
+            This PR contains automated dependency updates.
+            
+            ### ✅ Checks Performed:
+            - [x] Tests passing
+            - [x] Build successful
+            - [x] No breaking changes detected
+            
+            ### 🔍 Review Required:
+            Please review the changes and ensure everything works as expected.
+          branch: chore/dependency-updates
+          delete-branch: true

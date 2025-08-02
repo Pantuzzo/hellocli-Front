@@ -1,0 +1,14 @@
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      # Apenas para desenvolvimento - remova para produção
+      - ./:/app
+      - /app/node_modules
+    # Se precisar de variáveis de ambiente
+    env_file:
+      - .env

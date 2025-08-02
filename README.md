@@ -189,24 +189,6 @@ npm run test
 # Testes E2E
 npm run test:e2e
 
-# Coverage
-npm run test:coverage
-\`\`\`
-
-## 🚀 Deploy
-
-### Vercel (Recomendado)
-\`\`\`bash
-npm run build
-vercel --prod
-\`\`\`
-
-### Docker
-\`\`\`bash
-docker build -t hellocli-dashboard .
-docker run -p 3000:3000 hellocli-dashboard
-\`\`\`
-
 ## 📝 Roadmap
 
 - [ ] Notificações em tempo real

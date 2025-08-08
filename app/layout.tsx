@@ -1,12 +1,13 @@
-import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import type React from "react"
 import "./globals.css"
 import { Providers } from "./providers"
 
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://hellocli.netlify.app/'),
   title: "HelloCli - Seu Atendente Virtual Inteligente para WhatsApp e Web",
   description:
     "Chatbot inteligente com IA generativa para pequenos negócios. Atendimento automático 24/7, integração WhatsApp, configuração em 5 minutos. Teste grátis!",
@@ -54,7 +55,7 @@ export default function RootLayout({
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className={`${inter.className} min-h-screen bg-background text-foreground`} suppressHydrationWarning>
-        <Providers>{children}</Providers>
+         <Providers>{children}</Providers>
       </body>
     </html>
   )

@@ -1,9 +1,11 @@
-import { jwtVerify, SignJWT } from "jose"
+'use server'
+
+import { jwtVerify, SignJWT, type JWTPayload } from "jose"
 import { cookies } from "next/headers"
 
 const secret = new TextEncoder().encode(process.env.JWT_SECRET || "fallback-secret")
 
-export interface User {
+export interface User extends JWTPayload {
   id: string
   email: string
   name: string
@@ -29,15 +31,15 @@ export async function verifyToken(token: string): Promise<User | null> {
 }
 
 export async function getCurrentUser(): Promise<User | null> {
-  const cookieStore = await cookies()
+  const cookieStore = cookies()
   const token = cookieStore.get("auth-token")?.value
 
   if (!token) return null
 
-  return verifyToken(token)
+  return await verifyToken(token)
 }
 
-export function setAuthCookie(token: string) {
+export async function setAuthCookie(token: string) {
   const cookieStore = cookies()
   cookieStore.set("auth-token", token, {
     httpOnly: true,
@@ -47,7 +49,7 @@ export function setAuthCookie(token: string) {
   })
 }
 
-export function clearAuthCookie() {
+export async function clearAuthCookie() {
   const cookieStore = cookies()
   cookieStore.delete("auth-token")
 }

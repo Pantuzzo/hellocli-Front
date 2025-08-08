@@ -1,16 +1,18 @@
-"use client"
+'use client'
 
-import type React from "react"
-import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { motion } from "framer-motion"
-import { Bot, Eye, EyeOff, Home } from "lucide-react"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ThemeToggle } from "@/components/theme-toggle"
+import { useLogin } from "@/hooks/querys/auth/useLogin"
 import { useAuthStore } from "@/lib/stores/auth-store"
+import { motion } from "framer-motion"
+import { Bot, Eye, EyeOff, Home } from "lucide-react"
+import { useRouter } from "next/navigation"
+import type React from "react"
+import { useEffect, useState } from "react"
+
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -19,6 +21,8 @@ export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const router = useRouter()
+  const { mutate, isPending, isError, data } = useLogin();
+
 
   const { isAuthenticated, login } = useAuthStore()
 
@@ -28,31 +32,16 @@ export default function LoginPage() {
     }
   }, [isAuthenticated, router])
 
-  const handleSubmit = async (e: React.FormEvent) => {
+ const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    setIsLoading(true)
-    setError("")
-
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-
-      if (email === "admin@hellocli.com" && password === "123456") {
-        login({
-          id: "1",
-          email: "admin@hellocli.com",
-          name: "Admin",
-          role: "ADMIN",
-        })
-        router.push("/dashboard")
-      } else {
-        setError("Email ou senha incorretos")
+    setError('')
+    mutate({ email, password }, {
+      onError: (error) => {
+        setError('Usuario ou senha incorretos')
       }
-    } catch (err) {
-      setError("Erro ao fazer login")
-    } finally {
-      setIsLoading(false)
-    }
+    })
   }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-background to-purple-50 dark:from-gray-900 dark:via-background dark:to-gray-800 flex items-center justify-center p-4 relative">
@@ -141,17 +130,7 @@ export default function LoginPage() {
                 {isLoading ? "Entrando..." : "Entrar"}
               </Button>
             </form>
-
-            <div className="mt-6 text-center">
-              <div className="text-sm text-muted-foreground bg-muted p-3 rounded-lg border border-border">
-                <p>
-                  <strong>Credenciais de teste:</strong>
-                </p>
-                <p>Email: admin@hellocli.com</p>
-                <p>Senha: 123456</p>
-              </div>
-            </div>
-
+            
             <div className="mt-4 text-center">
               <p className="text-sm text-muted-foreground">
                 Não tem uma conta?{" "}
@@ -166,3 +145,4 @@ export default function LoginPage() {
     </div>
   )
 }
+

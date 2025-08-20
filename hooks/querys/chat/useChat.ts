@@ -9,13 +9,12 @@ interface ChatMessage {
   content: string;
   senderId: string;
   createdAt: string;
-  // Add any other fields from your backend
 }
 
 export function useChat(id: string) {
   return useQuery<ChatMessage>({
     queryKey: ["chat", id],
     queryFn: () => api.get(routes.chat.findMessage(id)),
-    enabled: !!id, // ensures the query only runs if id is truthy
+    enabled: !!id,
   });
 }

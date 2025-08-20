@@ -16,7 +16,7 @@ interface LoginResponse {
     id: string
     name?: string
     email: string
-    role: "ADMIN" | "SUPERADMIN" | "USER"
+    role: "admin" | "superadmin" | "user"
     companyId?: string
   }
   access_token: string

@@ -1,11 +1,7 @@
 "use client"
 
-import { Bell, Search, LogOut, User, Home } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { useRouter } from "next/navigation"
-import { useAuthStore } from "@/lib/stores/auth-store"
+import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,6 +10,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input"
+import { useAuthStore } from "@/lib/stores/auth-store"
+import { motion } from "framer-motion"
+import { Bell, Bot, Home, LogOut, Search, User } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 export function Header() {
   const router = useRouter()
@@ -28,17 +29,36 @@ export function Header() {
     router.push("/")
   }
 
+  const goToProfile = () => {
+    router.push("/profile")
+  }
+
   return (
-    <header className="bg-background border-b border-border px-6 py-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-4">
-          <div className="relative">
+    <motion.header
+      className="border-b bg-background/80 backdrop-blur-sm sticky top-0 z-50 px-6 py-4"
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.6, ease: [0.21, 0.47, 0.32, 0.98] }}
+    >
+      <div className="flex gap-2 justify-between">
+        <motion.div
+          className="flex items-center space-x-3 cursor-pointer "
+          whileHover={{ scale: 1.05 }}
+          transition={{ type: "spring", stiffness: 400, damping: 10 }}
+          onClick={() => router.push("/dashboard")}
+        >
+          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+            <Bot className="w-5 h-5 text-primary-foreground" />
+          </div>
+          <span className="text-xl font-bold text-foreground">HelloCli</span>
+        </motion.div>
+        
+        <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
             <Input
               placeholder="Buscar conversas..."
               className="pl-10 w-80 bg-background border-border text-foreground placeholder:text-muted-foreground"
             />
-          </div>
         </div>
 
         <div className="flex items-center space-x-4">
@@ -64,7 +84,7 @@ export function Header() {
                 <Home className="mr-2 h-4 w-4" />
                 <span>Página Inicial</span>
               </DropdownMenuItem>
-              <DropdownMenuItem className="text-foreground hover:bg-accent cursor-pointer">
+              <DropdownMenuItem onClick={goToProfile} className="text-foreground hover:bg-accent cursor-pointer">
                 <User className="mr-2 h-4 w-4" />
                 <span>Perfil</span>
               </DropdownMenuItem>
@@ -81,6 +101,6 @@ export function Header() {
           </DropdownMenu>
         </div>
       </div>
-    </header>
+    </motion.header>
   )
 }

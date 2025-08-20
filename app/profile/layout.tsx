@@ -1,11 +1,11 @@
 "use client"
 
-import { Header } from "@/components/layout/header"
-import { Sidebar } from "@/components/layout/sidebar"
-import { useAuthStore } from "@/lib/stores/auth-store"
-import { useRouter } from "next/navigation"
 import type React from "react"
 import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import { Sidebar } from "@/components/layout/sidebar"
+import { Header } from "@/components/layout/header"
+import { useAuthStore } from "@/lib/stores/auth-store"
 
 export default function DashboardLayout({
   children,
@@ -39,7 +39,7 @@ export default function DashboardLayout({
   return (
     <div className="flex h-screen bg-background">
       <Sidebar />
-      <div className="flex-1 flex flex-col justify-center px-8">
+      <div className="flex-1 flex flex-col md:ml-64">
         <Header />
         <main className="flex-1 overflow-auto p-6 bg-background">{children}</main>
       </div>

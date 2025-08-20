@@ -2,9 +2,12 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { MessageSquare, Bot, Settings, Users, TrendingUp, Clock } from "lucide-react"
-import Link from "next/link"
+import { useAuthStore } from "@/lib/stores/auth-store"
 import { motion } from "framer-motion"
+// import { ChatWidget } from "hello-cli-chatbot-widget"
+// import 'hello-cli-chatbot-widget/dist/style.css'; // importe os estilos
+import { Bot, Bug, Building2, Clock, MessageSquare, Signal, TrendingUp, Users } from "lucide-react"
+import Link from "next/link"
 
 export default function DashboardPage() {
   const stats = [
@@ -37,6 +40,9 @@ export default function DashboardPage() {
       color: "text-orange-600 dark:text-orange-400",
     },
   ]
+
+  const { user } = useAuthStore()
+
 
   return (
     <div className="space-y-8">
@@ -110,17 +116,43 @@ export default function DashboardPage() {
                 </Button>
               </motion.div>
             </Link>
-            <Link href="/settings">
+            <Link href="/reports">
               <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
                 <Button
                   variant="outline"
                   className="w-full justify-start bg-background hover:bg-accent hover:text-accent-foreground border-border"
                 >
-                  <Settings className="w-4 h-4 mr-2" />
-                  Configurações
+                  <Signal className="w-4 h-4 mr-2" />
+                    Relatórios
                 </Button>
               </motion.div>
             </Link>
+            {user?.role === "superadmin" && (
+              <>
+                <Link href="/companies">
+                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start bg-background hover:bg-accent hover:text-accent-foreground border-border"
+                    >
+                      <Building2 className="w-4 h-4 mr-2" />
+                        Empresas Parceiras
+                    </Button>
+                  </motion.div>
+                </Link>
+                <Link href="/debug">
+                  <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start bg-background hover:bg-accent hover:text-accent-foreground border-border"
+                    >
+                      <Bug className="w-4 h-4 mr-2" />
+                        debug
+                    </Button>
+                  </motion.div>
+                </Link>
+            </>
+            )}
           </CardContent>
         </Card>
 
@@ -152,6 +184,18 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
+      {/* <ChatWidget
+        position="right"
+        title="Assistente Virtual"
+        welcomeMessage="Olá! Bem-vindo ao nosso site. Como posso ajudá-lo hoje?"
+        primaryColor="#3b82f6"
+        onSendMessage={(message: string) => {
+          console.log("Mensagem enviada:", message)
+        }}
+        onToggle={(isOpen: boolean) => {
+          console.log("Chat", isOpen ? "aberto" : "fechado")
+        }}
+      /> */}
     </div>
   )
 }

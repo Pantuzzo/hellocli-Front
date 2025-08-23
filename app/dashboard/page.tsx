@@ -4,8 +4,6 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useAuthStore } from "@/lib/stores/auth-store"
 import { motion } from "framer-motion"
-// import { ChatWidget } from "hello-cli-chatbot-widget"
-// import 'hello-cli-chatbot-widget/dist/style.css'; // importe os estilos
 import { Bot, Bug, Building2, Clock, MessageSquare, Signal, TrendingUp, Users } from "lucide-react"
 import Link from "next/link"
 
@@ -184,18 +182,7 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
       </div>
-      {/* <ChatWidget
-        position="right"
-        title="Assistente Virtual"
-        welcomeMessage="Olá! Bem-vindo ao nosso site. Como posso ajudá-lo hoje?"
-        primaryColor="#3b82f6"
-        onSendMessage={(message: string) => {
-          console.log("Mensagem enviada:", message)
-        }}
-        onToggle={(isOpen: boolean) => {
-          console.log("Chat", isOpen ? "aberto" : "fechado")
-        }}
-      /> */}
+      
     </div>
   )
 }

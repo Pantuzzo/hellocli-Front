@@ -11,8 +11,8 @@ import { Pricing } from "@/components/sections/pricing"
 import { Problem } from "@/components/sections/problem"
 import { SocialProof } from "@/components/sections/social-proof"
 import { Solution } from "@/components/sections/solution"
-import { ChatWidget } from "hello-cli-chatbot-widget"
 import 'hello-cli-chatbot-widget/dist/styles.css';
+import { ChatWidget } from 'hello-cli-chatbot-widget';
 
 export default function LandingPage() {
   return (
